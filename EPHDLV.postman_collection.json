@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "f4894f1e-2a88-494a-878d-68cfc2b9ed03",
+		"name": "EPHDLV",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET ALQUILER",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Origin",
+						"value": "www.fotocasa.es",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.fotocasa.es/PropertySearch/Search?clientId=9202751260688&combinedLocationIds=724,0,0,0,0,0,0,0,0&culture=es-ES&hrefLangCultures=ca-ES%3Bes-ES%3Bde-DE%3Ben-GB&isMap=false&isNewConstruction=false&latitude=40&longitude=-4&pageNumber=1&platformId=1&sortOrderDesc=true&sortType=bumpdate&transactionTypeId=3",
+					"protocol": "https",
+					"host": [
+						"api",
+						"fotocasa",
+						"es"
+					],
+					"path": [
+						"PropertySearch",
+						"Search"
+					],
+					"query": [
+						{
+							"key": "clientId",
+							"value": "9202751260688"
+						},
+						{
+							"key": "combinedLocationIds",
+							"value": "724,0,0,0,0,0,0,0,0"
+						},
+						{
+							"key": "culture",
+							"value": "es-ES"
+						},
+						{
+							"key": "hrefLangCultures",
+							"value": "ca-ES%3Bes-ES%3Bde-DE%3Ben-GB"
+						},
+						{
+							"key": "isMap",
+							"value": "false"
+						},
+						{
+							"key": "isNewConstruction",
+							"value": "false"
+						},
+						{
+							"key": "latitude",
+							"value": "40"
+						},
+						{
+							"key": "longitude",
+							"value": "-4"
+						},
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "platformId",
+							"value": "1"
+						},
+						{
+							"key": "sortOrderDesc",
+							"value": "true"
+						},
+						{
+							"key": "sortType",
+							"value": "bumpdate"
+						},
+						{
+							"key": "transactionTypeId",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET COMPRA",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Origin",
+						"value": "www.fotocasa.es",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.fotocasa.es/PropertySearch/Search?clientId=9202751260688&combinedLocationIds=724,0,0,0,0,0,0,0,0&culture=es-ES&hrefLangCultures=ca-ES%3Bes-ES%3Bde-DE%3Ben-GB&isMap=false&isNewConstruction=false&latitude=40&longitude=-4&pageNumber=1&platformId=1&sortOrderDesc=true&sortType=bumpdate&transactionTypeId=1",
+					"protocol": "https",
+					"host": [
+						"api",
+						"fotocasa",
+						"es"
+					],
+					"path": [
+						"PropertySearch",
+						"Search"
+					],
+					"query": [
+						{
+							"key": "clientId",
+							"value": "9202751260688"
+						},
+						{
+							"key": "combinedLocationIds",
+							"value": "724,0,0,0,0,0,0,0,0"
+						},
+						{
+							"key": "culture",
+							"value": "es-ES"
+						},
+						{
+							"key": "hrefLangCultures",
+							"value": "ca-ES%3Bes-ES%3Bde-DE%3Ben-GB"
+						},
+						{
+							"key": "isMap",
+							"value": "false"
+						},
+						{
+							"key": "isNewConstruction",
+							"value": "false"
+						},
+						{
+							"key": "latitude",
+							"value": "40"
+						},
+						{
+							"key": "longitude",
+							"value": "-4"
+						},
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "platformId",
+							"value": "1"
+						},
+						{
+							"key": "sortOrderDesc",
+							"value": "true"
+						},
+						{
+							"key": "sortType",
+							"value": "bumpdate"
+						},
+						{
+							"key": "transactionTypeId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
