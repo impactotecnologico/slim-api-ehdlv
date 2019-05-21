@@ -40,7 +40,8 @@ Listado por tablas de Wordpress, se está tomando como guía la data del post co
 * **id:** automático
 * **post_author:** 1
 * **post_date:** realEstates.date
-* **post_date_gtm:** realEstates.date
+* **post_date_gmt:** realEstates.date
+* **post_modified:** realEstates.date
 * **post_content:** realEstates.description
 * **post_title:** realEstates.description
 * **post_status:** publish
@@ -49,9 +50,15 @@ Listado por tablas de Wordpress, se está tomando como guía la data del post co
 * **post_name:** realEstates.description (reemplazando blanks con "-")
 * **post_parent:** 0
 * **post_type:** property
-* **post_mime_type:** null
+* **post_mime_type:** ''
+* **id_fotocasa:** realEstates.id
+* **post_excerpt:** ''
+* **to_ping:** ''
+* **pinged:** ''
+* **post_content_filtered:** ''
 
 **imágenes**
+
 * **id:** automático
 * **post_author:** 1
 * **post_date:** realEstates.date
@@ -66,6 +73,10 @@ Listado por tablas de Wordpress, se está tomando como guía la data del post co
 * **post_type:** attachment
 * **post_mime_type:** image/png
 * **guid:** realEstates.multimedias[x].url
+* **post_excerpt:** ''
+* **to_ping:** ''
+* **pinged:** ''
+* **post_content_filtered:** ''
 
 
 **wp_postmeta**
@@ -110,7 +121,7 @@ Listado por tablas de Wordpress, se está tomando como guía la data del post co
 * **meta_id:** automático
 * **post_id:** id del post creado
 * **meta_key:** REAL_HOMES_property_address
-* **meta_value:** realEstates.address.ubication + " " + realEstates.address.location.country + realEstates.address.location.level(1 al 8)+ realEstates.address.location.upperlevel
+* **meta_value:** realEstates.address.ubication + " " + realEstates.address.location.country + realEstates.address.location.upperlevel
 
 **wp_postmeta (coordenadas)**
 * **meta_id:** automático
