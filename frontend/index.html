@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Estudio Profesional Hensel de la Vega</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="assets/css/style.css">
+	</head>
+	<body>
+		<header>
+			<!-- Fixed navbar -->
+			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-green">
+				<img src="assets/img/logo.png" width="350px">
+			</nav>
+		</header>
+			
+		<!-- Begin page content -->
+		<main role="main" class="container">
+			<h1 class="mt-5">Bienvenido al asistente de Importación de inmuebles de Estudio Profesional Hensel de la Vega</h1>
+			<p class="lead">Al presionar el botón "Importar" se importarán todos los inmuebles existentes en la web de Estudio Hensel de la Vega de <a href="https://www.fotocasa.es/es/inmobiliaria-estudio-colombia/comprar/inmuebles/espana/todas-las-zonas/l?latitude=40&longitude=-4&combinedLocationIds=724,0,0,0,0,0,0,0,0&gridType=3&clientId=9202751260688">fotocasa.es</a>. Los inmuebles que ya se hayan importado en una ocasión anterior no se reimportarán, <b>solo se añadirán los nuevos.</b></p>
+			<button class="bg-green btn white-font" onclick="alquileres()">Importar</button><br></br>
+			<div class="progress">
+				<div class="progress-bar progress-bar-striped progress-bar-animated" id="progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+			</div>
+		</main>
+
+		<!--TOAST-->
+		<!-- Flexbox container for aligning the toasts -->
+		<div aria-live="polite" aria-atomic="true" data-delay="10000" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+
+			<!-- Then put toasts within -->
+			<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000" >
+			<div class="toast-header">
+				<strong class="mr-auto">Operación terminada</strong>
+				<small>Se han importado correctamente todos los inmuebles</small>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			</div>
+		</div>
+	
+		<footer class="footer">
+			<div class="container">
+				<span class="text-muted">Desarrollado por <a href="https://impactotecnologico.net">Impacto Tecnológico</a></span>
+			</div>
+		</footer>
+		<script src="assets/js/script.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	</body>
+</html>
