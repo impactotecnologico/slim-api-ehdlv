@@ -33,36 +33,101 @@ class Post{
             }else{
                 $data = [];
             }
-            return count($data);
+            return $data;
+	  }
+
+	  public function delete($id){
+		  $registros = $this->getById($id);
+		  for($i=0;$i<count($registros);$i++){
+		      $conn = new Connection;
+    		  $db = $conn->getConnection();
+    		  $sql = "DELETE FROM wp_posts WHERE id='".$registros[$i]->$id."'";
+    		  $exe = $db->query($sql);
+		  }
 	  }
 	  
 	  public function registrar($data, $tipo_p){
 	      $utils = new Utils;
 	      //$data = $utils->utf8_converter($data);
-		if($this->getById($data->id) == 0 || is_null($this->getById($data->id))){
-		$conn = new Connection;
-		$db = $conn->getConnection();
-		$utils = new Utils;
-		$title = explode("/",$data->detail->es);
-	    $title = ucwords($title[2]." ".$title[3]." ".$title[4]);
-		$name = substr(str_replace(',','',utf8_decode(strtolower($title))),0,190);
-		//$data = $utils->utf8_converter($data);
-		$sql = "INSERT INTO wp_posts (post_author,post_date, post_date_gmt, post_modified, post_content, post_title, post_status, comment_status, ping_status, post_name, post_parent, post_type, post_mime_type, id_fotocasa, post_modified_gmt, post_excerpt, to_ping, pinged, post_content_filtered) VALUES (1, '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".utf8_decode($data->description)."', '".utf8_decode($title)."', 'publish', 'closed', 'closed', '".str_replace(' ','-',$name)."', 0, 'property', '', '".$data->id."', '".substr($data->date,0,19)."', '', '', '', '');";
-		$exe = $db->query($sql);
-		
-		if($exe){
-			//return $sql;
-			return $this->registrarImagenes($data, $db->insert_id, $tipo_p);
+		if(count($this->getById($data->id)) == 0){
+			$conn = new Connection;
+			$db = $conn->getConnection();
+			$utils = new Utils;
+			if($data->typeId == 5){
+				$tipo_inmueble = "Local comercial"; //local comercial
+			}elseif($data->typeId == 2){
+				if($data->subtypeId == 2){
+					$tipo_inmueble = "Apartamento";
+				}elseif($data->subtypeId == 1){
+					$tipo_inmueble = "Piso";
+				}elseif($data->subtypeId == 54){
+					$tipo_inmueble = "Estudio";
+				}else{
+					$tipo_inmueble = "Vivienda";
+				}
+			}elseif($data->typeId == 8){
+				$tipo_inmueble = "Edificio";
+			}
+			$title = $tipo_inmueble." en ".$data->address->ubication;
+			$name = str_replace(' ','-',$title);
+			$name = str_replace(',','',$name."-".$data->id);
+			//$data = $utils->utf8_converter($data);
+			$sql = "INSERT INTO wp_posts (post_author,post_date, post_date_gmt, post_modified, post_content, post_title, post_status, comment_status, ping_status, post_name, post_parent, post_type, post_mime_type, id_fotocasa, post_modified_gmt, post_excerpt, to_ping, pinged, post_content_filtered) VALUES (1, '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".utf8_decode($data->description)."', '".utf8_decode($title)."', 'publish', 'closed', 'closed', '".str_replace(' ','-',strtolower($name))."', 0, 'property', '', '".$data->id."', '".substr($data->date,0,19)."', '', '', '', '');";
+			$exe = $db->query($sql);
+			
+			if($exe){
+				//return $sql;
+				return $this->registrarImagenes($data, $db->insert_id, $tipo_p);
+			}else{
+				$link = mysqli_connect('localhost', 'estudio2_it', 'impacto.1309.', 'estudio2_db');
+				
+				if (!$link) {
+					die('Connect Error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+				}
+				
+				echo 'Connected... ' . mysqli_get_host_info($link) . "\n";
+				return array("estatus"=>"500", "mensaje"=>$exe);
+			}
 		}else{
-		    $link = mysqli_connect('localhost', 'estudio2_it', 'impacto.1309.', 'estudio2_db');
-            
-            if (!$link) {
-                die('Connect Error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
-            }
-            
-            echo 'Connected... ' . mysqli_get_host_info($link) . "\n";
-			return array("estatus"=>"500", "mensaje"=>$exe);
-		}
+			    $this->delete($data->id);
+				$conn = new Connection;
+				$db = $conn->getConnection();
+				$utils = new Utils;
+				if($data->typeId == 5){
+					$tipo_inmueble = "Local comercial"; //local comercial
+				}elseif($data->typeId == 2){
+					if($data->subtypeId == 2){
+						$tipo_inmueble = "Apartamento";
+					}elseif($data->subtypeId == 1){
+						$tipo_inmueble = "Piso";
+					}elseif($data->subtypeId == 54){
+						$tipo_inmueble = "Estudio";
+					}else{
+						$tipo_inmueble = "Vivienda";
+					}
+				}elseif($data->typeId == 8){
+					$tipo_inmueble = "Edificio";
+				}
+				$title = $tipo_inmueble." en ".$data->address->ubication;
+				$name = str_replace(' ','-',$title);
+				$name = str_replace(',','',$name."-".$data->id);
+				//$data = $utils->utf8_converter($data);
+				$sql = "INSERT INTO wp_posts (post_author,post_date, post_date_gmt, post_modified, post_content, post_title, post_status, comment_status, ping_status, post_name, post_parent, post_type, post_mime_type, id_fotocasa, post_modified_gmt, post_excerpt, to_ping, pinged, post_content_filtered) VALUES (1, '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".utf8_decode($data->description)."', '".utf8_decode($title)."', 'publish', 'closed', 'closed', '".str_replace(' ','-',strtolower($name))."', 0, 'property', '', '".$data->id."', '".substr($data->date,0,19)."', '', '', '', '');";
+				$exe = $db->query($sql);
+				
+				if($exe){
+					//return $sql;
+					return $this->registrarImagenes($data, $db->insert_id, $tipo_p);
+				}else{
+					$link = mysqli_connect('localhost', 'estudio2_it', 'impacto.1309.', 'estudio2_db');
+					
+					if (!$link) {
+						die('Connect Error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+					}
+					
+					echo 'Connected... ' . mysqli_get_host_info($link) . "\n";
+					return array("estatus"=>"500", "mensaje"=>$exe);
+				}
 		}
   }
 
@@ -151,7 +216,7 @@ class Post{
 			$sql = "INSERT INTO wp_postmeta (post_id,meta_key, meta_value) VALUES ('".$postId."', 'REAL_HOMES_property_images', '".$img_id[$i]."');";
 			$exe = $db->query($sql);
 			array_push($resul, $sql);
-			if($i==1){
+			if($i==0){
 				$conn = new Connection;
 				$db = $conn->getConnection();
 				$sql = "INSERT INTO wp_postmeta (post_id,meta_key, meta_value) VALUES ('".$postId."', '_thumbnail_id', '".$img_id[$i]."');";
@@ -272,6 +337,30 @@ class Post{
 		
 		$direccion= $data->address->ubication.', '.$data->address->location->country.', '.$data->address->location->upperLevel;
 		$sql = "INSERT INTO wp_postmeta (post_id,meta_key, meta_value) VALUES ('".$postId."', 'REAL_HOMES_gallery_slider_type', 'thumb-on-right');";
+		$exe = $db->query($sql);
+		array_push($resul, $sql);
+
+		if($data->typeId == 5){
+			$tipo = 53; //local comercial
+		}elseif($data->typeId == 2){
+			if($data->subtypeId == 2){
+				$tipo = 57; //piso
+			}elseif($data->subtypeId == 1){
+				$tipo = 57; //piso
+			}elseif($data->subtypeId == 54){
+				$tipo = 57; //piso
+			}else{
+				$tipo = 63; //vivienda
+			}
+		}
+
+		$sql = "INSERT INTO wp_term_relationships (object_id,term_taxonomy_id, term_order) VALUES ('".$postId."', '".$tipo."', '0');";
+		$exe = $db->query($sql);
+		array_push($resul, $sql);
+
+		//ciudad madrid capital
+		$ciudad = 54;
+		$sql = "INSERT INTO wp_term_relationships (object_id,term_taxonomy_id, term_order) VALUES ('".$postId."', '".$ciudad."', '0');";
 		$exe = $db->query($sql);
 		array_push($resul, $sql);
 

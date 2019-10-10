@@ -1,5 +1,5 @@
 function ventas(){
-	fetch('https://api.estudiohenseldelavega.es/ventas')
+	fetch('http://estudiohenseldelavega.es/api/ventas')
 	.then(function(response) {
 		document.getElementById("progress").setAttribute("aria-valuenow", "100");
 		document.getElementById("progress").style.width = "100%";
@@ -15,7 +15,7 @@ function alquileres(){
 	document.getElementById("progress").setAttribute("aria-valuenow", "0");
 	document.getElementById("progress").style.width = "0%";
 	$('button').prop('disabled', true);
-	fetch('https://api.estudiohenseldelavega.es/alquileres')
+	fetch('http://estudiohenseldelavega.es/api/alquileres')
 	.then(function(response) {
 		document.getElementById("progress").setAttribute("aria-valuenow", "50");
 		document.getElementById("progress").style.width = "50%";
