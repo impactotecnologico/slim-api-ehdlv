@@ -26,7 +26,7 @@ class Post{
       public function getById($id){
             $conn = new Connection;
             $db = $conn->getConnection();
-            $sql = "SELECT * FROM wp_posts WHERE id_fotocasa='".$id."'";
+			$sql = "SELECT * FROM wp_posts WHERE id_fotocasa='".$id."'";
             $exe = $db->query($sql);
             if(!is_null($exe)){
     			$data = $exe->fetch_all(MYSQLI_ASSOC);
@@ -36,20 +36,27 @@ class Post{
             return $data;
 	  }
 
-	  public function delete($id){
-		  $registros = $this->getById($id);
-		  for($i=0;$i<count($registros);$i++){
-		      $conn = new Connection;
-    		  $db = $conn->getConnection();
-    		  $sql = "DELETE FROM wp_posts WHERE id='".$registros[$i]->$id."'";
-    		  $exe = $db->query($sql);
-		  }
+	  function seo_friendly_url($string){
+		$string = str_replace(array('[\', \']'), '', $string);
+		$string = preg_replace('/\[.*\]/U', '', $string);
+		$string = preg_replace('/&(amp;)?#?[a-z0-9]+;/i', '-', $string);
+		$string = htmlentities($string, ENT_COMPAT, 'utf-8');
+		$string = preg_replace('/&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);/i', '\\1', $string );
+		$string = preg_replace(array('/[^a-z0-9]/i', '/[-]+/') , '-', $string);
+		return strtolower(trim($string, '-'));
+	}
+
+	  public function delete(){
+		$conn = new Connection;
+		$db = $conn->getConnection();
+		$sql = "DELETE FROM wp_posts WHERE id_fotocasa IS NOT NULL";
+		$exe = $db->query($sql);
 	  }
-	  
-	  public function registrar($data, $tipo_p){
-	      $utils = new Utils;
-	      //$data = $utils->utf8_converter($data);
-		if(count($this->getById($data->id)) == 0){
+
+	  public function save($data, $tipo_p){
+		$utils = new Utils;
+			//$data = $utils->utf8_converter($data);
+		if(count($this->getById($data->id)) == 0 || is_null($this->getById($data->id))){
 			$conn = new Connection;
 			$db = $conn->getConnection();
 			$utils = new Utils;
@@ -71,11 +78,42 @@ class Post{
 			$title = $tipo_inmueble." en ".$data->address->ubication;
 			$name = str_replace(' ','-',$title);
 			$name = str_replace(',','',$name."-".$data->id);
+			$name = $this->seo_friendly_url($name);
 			//$data = $utils->utf8_converter($data);
-			$sql = "INSERT INTO wp_posts (post_author,post_date, post_date_gmt, post_modified, post_content, post_title, post_status, comment_status, ping_status, post_name, post_parent, post_type, post_mime_type, id_fotocasa, post_modified_gmt, post_excerpt, to_ping, pinged, post_content_filtered) VALUES (1, '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".utf8_decode($data->description)."', '".utf8_decode($title)."', 'publish', 'closed', 'closed', '".str_replace(' ','-',strtolower($name))."', 0, 'property', '', '".$data->id."', '".substr($data->date,0,19)."', '', '', '', '');";
+			$sql = "INSERT INTO wp_posts (post_author,post_date, post_date_gmt, post_modified, post_content, post_title, post_status, comment_status, ping_status, post_name, post_parent, post_type, post_mime_type, id_fotocasa, post_modified_gmt, post_excerpt, to_ping, pinged, post_content_filtered) VALUES (1, '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".utf8_decode($data->description)."', '".utf8_decode($title)."', 'publish', 'closed', 'closed', '".$name."', 0, 'property', '', '".$data->id."', '".substr($data->date,0,19)."', '', '', '', '');";
 			$exe = $db->query($sql);
+			$this->registrarImagenes($data, $db->insert_id, $tipo_p);
+		}
+	}
+	  
+	  public function registrar($data, $tipo_p){
+	      
+			//$exe = $db->query($sql);
+			var_dump(count($data->transactions));
+			if(count($data->transactions) > 1){
+				for($i=0;$i<count($data->transactions);$i++){
+					if($data->transactions[$i]->transactionTypeId == 1){
+						$tipo_p = "venta";
+					}else{
+						$tipo_p = "alquiler";
+					}
+					if($i>0){
+						$data->id = $data->id+1000;
+						array_shift($data->transactions);
+					}
+					//var_dump($data->id);
+					$this->save($data, $tipo_p);
+					//var_dump($data->transactions[$i]->transactionTypeId);
+					
+					
+					//var_dump($data->transactions[$i]->transactionTypeId);
+				}
+				
+			}else{
+				$this->save($data, $tipo_p);
+			}
 			
-			if($exe){
+			/*if($exe){
 				//return $sql;
 				return $this->registrarImagenes($data, $db->insert_id, $tipo_p);
 			}else{
@@ -87,8 +125,8 @@ class Post{
 				
 				echo 'Connected... ' . mysqli_get_host_info($link) . "\n";
 				return array("estatus"=>"500", "mensaje"=>$exe);
-			}
-		}else{
+			}*/
+		}/*else{
 			    $this->delete($data->id);
 				$conn = new Connection;
 				$db = $conn->getConnection();
@@ -111,8 +149,9 @@ class Post{
 				$title = $tipo_inmueble." en ".$data->address->ubication;
 				$name = str_replace(' ','-',$title);
 				$name = str_replace(',','',$name."-".$data->id);
+				$name = $this->seo_friendly_url($name);
 				//$data = $utils->utf8_converter($data);
-				$sql = "INSERT INTO wp_posts (post_author,post_date, post_date_gmt, post_modified, post_content, post_title, post_status, comment_status, ping_status, post_name, post_parent, post_type, post_mime_type, id_fotocasa, post_modified_gmt, post_excerpt, to_ping, pinged, post_content_filtered) VALUES (1, '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".utf8_decode($data->description)."', '".utf8_decode($title)."', 'publish', 'closed', 'closed', '".str_replace(' ','-',strtolower($name))."', 0, 'property', '', '".$data->id."', '".substr($data->date,0,19)."', '', '', '', '');";
+				$sql = "INSERT INTO wp_posts (post_author,post_date, post_date_gmt, post_modified, post_content, post_title, post_status, comment_status, ping_status, post_name, post_parent, post_type, post_mime_type, id_fotocasa, post_modified_gmt, post_excerpt, to_ping, pinged, post_content_filtered) VALUES (1, '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".substr($data->date,0,19)."', '".utf8_decode($data->description)."', '".utf8_decode($title)."', 'publish', 'closed', 'closed', '".$name."', 0, 'property', '', '".$data->id."', '".substr($data->date,0,19)."', '', '', '', '');";
 				$exe = $db->query($sql);
 				
 				if($exe){
@@ -128,8 +167,7 @@ class Post{
 					echo 'Connected... ' . mysqli_get_host_info($link) . "\n";
 					return array("estatus"=>"500", "mensaje"=>$exe);
 				}
-		}
-  }
+		}*/
 
 	function file_get_contents_curl($url, $dest) { 
 		$ch = curl_init($url);

@@ -4,6 +4,15 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require __DIR__.'/../services/post/postService.php';
 
+$app->get('/borrar', function ($request, $response, $args) use ($post, $app) {
+	$post = new Post;
+	
+	$result = Array();
+	
+	$result = $post->delete();
+	echo json_encode($result);
+});
+
 $app->get('/alquileres', function ($request, $response, $args) use ($post, $app) {
 	$post = new Post;
 	$ch = curl_init();
@@ -55,7 +64,7 @@ $app->get('/ventas', function ($request, $response, $args) {
 	}*/
 //	echo json_encode($data->realEstates[0]->features, JSON_PRETTY_PRINT);
 	$result = Array();
-	for($i=0;$i<1;$i++){
+	for($i=0;$i<count($data->realEstates);$i++){
 		array_push($result,$post->registrar($data->realEstates[$i], "ventas"));
 	}
 	echo json_encode($result);
