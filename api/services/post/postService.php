@@ -357,7 +357,19 @@ class Post{
 
 		
 		$direccion= $data->address->ubication.', '.$data->address->location->country.', '.$data->address->location->upperLevel;
-		$sql = "INSERT INTO wp_postmeta (post_id,meta_key, meta_value) VALUES ('".$postId."', '_yoast_wpseo_primary_property-city', '54');";
+		$ciudad = 54;
+		if(strpos($data->address->ubication, "Torrejón de Ardoz")){
+			$ciudad = 58;
+		}
+
+		if(strpos($data->address->ubication, "Manzanares El Real")){
+			$ciudad = 91;
+		}
+
+		if(strpos($data->address->ubication, "Buitrago del Lozoya")){
+			$ciudad = 92;
+		}
+		$sql = "INSERT INTO wp_postmeta (post_id,meta_key, meta_value) VALUES ('".$postId."', '_yoast_wpseo_primary_property-city', '".$ciudad."');";
 		$exe = $db->query($sql);
 		array_push($resul, $sql);
 
@@ -398,6 +410,18 @@ class Post{
 
 		//ciudad madrid capital
 		$ciudad = 54;
+		if(strpos($data->address->ubication, "Torrejón de Ardoz")){
+			$ciudad = 58;
+		}
+
+		if(strpos($data->address->ubication, "Manzanares El Real")){
+			$ciudad = 91;
+		}
+
+		if(strpos($data->address->ubication, "Buitrago del Lozoya")){
+			$ciudad = 92;
+		}
+
 		$sql = "INSERT INTO wp_term_relationships (object_id,term_taxonomy_id, term_order) VALUES ('".$postId."', '".$ciudad."', '0');";
 		$exe = $db->query($sql);
 		array_push($resul, $sql);
