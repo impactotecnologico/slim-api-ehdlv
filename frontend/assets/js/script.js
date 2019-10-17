@@ -7,7 +7,7 @@ function ventas(){
 		$('button').prop('disabled', false);
 	})
 	.then(function(response) {
-		document.getElementById("progress").style.width = "0%";
+		//document.getElementById("progress").style.width = "0%";
 		document.getElementById("import-warning").innerHTML = "Importación finalizada";
 	});
 }
@@ -19,7 +19,7 @@ function alquileres(){
 	fetch('http://estudiohenseldelavega.es/api/alquileres')
 	.then(function(response) {
 		document.getElementById("progress").setAttribute("aria-valuenow", "70");
-		document.getElementById("progress").style.width = "70%";
+		document.getElementById("progress").style.width = "50%";
 		ventas();
 	})
 	.then(function(response) {
